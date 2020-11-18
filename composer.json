@@ -1,0 +1,31 @@
+{
+    "name": "dazet/type-utils",
+    "description": "Type casting utils for PHP.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Damian Zaprzałek",
+            "email": "dazet.me@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-ctype": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4",
+        "phpstan/phpstan": "^0.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dazet\\TypeUtil\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\Dazet\\TypeUtil\\": "tests/"
+        }
+    }
+}
