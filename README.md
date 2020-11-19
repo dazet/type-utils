@@ -1,5 +1,7 @@
 # Safe type casting utils for PHP
 
+[![Build Status](https://travis-ci.org/dazet/type-utils.svg?branch=main)](https://travis-ci.org/dazet/type-utils)
+
 ## StringUtil
 
 #### `StringUtil::canBeString(mixed $value): bool`
