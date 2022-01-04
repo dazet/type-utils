@@ -42,10 +42,6 @@ final class DateUtil
      */
     public static function toDatetimeOrNull($value, ?DateTimeZone $timeZone = null): ?DateTimeImmutable
     {
-        if ($value === null || !self::canBeDate($value)) {
-            return null;
-        }
-
         if ($value instanceof DateTime) {
             return DateTimeImmutable::createFromMutable($value);
         }
@@ -54,7 +50,12 @@ final class DateUtil
             return $value;
         }
 
-        return new DateTimeImmutable((string)$value, $timeZone);
+        $stringValue = StringUtil::toStringOrNull($value);
+        if ($stringValue !== null && strtotime($stringValue) !== false) {
+            return new DateTimeImmutable($stringValue, $timeZone);
+        }
+
+        return null;
     }
 
     /**

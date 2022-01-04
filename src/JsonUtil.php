@@ -10,7 +10,7 @@ final class JsonUtil
 {
     /** @var callable(mixed):?string */
     public const toJsonOrNull = [self::class, 'toJsonOrNull'];
-    /** @var callable(mixed):?array */
+    /** @var callable(mixed):?array<int|string,mixed> */
     public const toArrayOrNull = [self::class, 'toArrayOrNull'];
 
     /**

@@ -34,10 +34,6 @@ final class NumberUtil
      */
     public static function toIntOrNull($value): ?int
     {
-        if ($value === null || !self::canBeNumber($value)) {
-            return null;
-        }
-
         if (is_int($value)) {
             return $value;
         }
@@ -50,7 +46,12 @@ final class NumberUtil
             return $value ? 1 : 0;
         }
 
-        return (int)(string)$value;
+        $stringValue = StringUtil::toStringOrNull($value);
+        if (is_numeric($stringValue)) {
+            return (int)$stringValue;
+        }
+
+        return null;
     }
 
     /**
@@ -73,15 +74,20 @@ final class NumberUtil
      */
     public static function toFloatOrNull($value): ?float
     {
-        if ($value === null || !self::canBeNumber($value)) {
-            return null;
-        }
-
         if (is_float($value)) {
             return $value;
         }
 
-        return (float)(string)$value;
+        if (is_int($value)) {
+            return (float)$value;
+        }
+
+        $stringValue = StringUtil::toStringOrNull($value);
+        if (is_numeric($stringValue)) {
+            return (float)$stringValue;
+        }
+
+        return null;
     }
 
     /**

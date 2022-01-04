@@ -29,15 +29,15 @@ final class StringUtil
      */
     public static function toStringOrNull($value): ?string
     {
-        if ($value === null || !self::canBeString($value)) {
-            return null;
-        }
-
         if (is_bool($value)) {
             return $value ? '1' : '0';
         }
 
-        return (string)$value;
+        if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            return (string)$value;
+        }
+
+        return null;
     }
 
     /**

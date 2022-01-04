@@ -2,10 +2,12 @@ language: php
 
 php:
     - 7.4
+    - 8.0
+    - 8.1
 
 install:
     - composer install --dev
 
 script:
-    - ./vendor/bin/phpunit
-    - ./vendor/bin/phpstan analyze --level=8 src
+    - composer test:phpunit
+    - composer test:phpstan

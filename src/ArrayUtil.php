@@ -108,6 +108,6 @@ final class ArrayUtil
     /** @param mixed $value */
     public static function countOrNull($value): ?int
     {
-        return self::isCountable($value) ? count($value) : null;
+        return is_countable($value) ? count($value) : null;
     }
 }
