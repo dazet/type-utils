@@ -38,6 +38,13 @@ class BooleanUtilTest extends TestCase
         self::assertFalse(BooleanUtil::toBoolOrNull($fallacy));
     }
 
+    public function test_null_casting()
+    {
+        self::assertTrue(BooleanUtil::canBeBool(null));
+        self::assertFalse(BooleanUtil::toBool(null));
+        self::assertNull(BooleanUtil::toBoolOrNull(null));
+    }
+
     /** @dataProvider booleanNotLikes */
     public function test_not_like_bool_toBoolOrNull_is_null($notLikeBool)
     {
@@ -79,16 +86,16 @@ class BooleanUtilTest extends TestCase
 
     public function truthLikes(): array
     {
-        return [[true], [1], ['1']];
+        return [[true], [1], ['1'], ['true'], ['yes']];
     }
 
     public function fallacyLikes(): array
     {
-        return [[false], [0], ['0']];
+        return [[false], [0], ['0'], ['false'], ['no']];
     }
 
     public function booleanNotLikes(): array
     {
-        return [['true'], ['false'], [0.0], [''], [null], [new stdClass()], [[]],];
+        return [['maybe'], [0.0], [''], [new stdClass()], [[]],];
     }
 }

@@ -30,7 +30,7 @@ final class ArrayUtil
     /** @param mixed $value */
     public static function canBeArray($value): bool
     {
-        return is_iterable($value);
+        return $value === null || is_iterable($value);
     }
 
     /**
@@ -74,6 +74,10 @@ final class ArrayUtil
      */
     public static function toArray($value): array
     {
+        if ($value === null) {
+            return [];
+        }
+
         $value = self::toArrayOrNull($value);
 
         if ($value === null) {
@@ -90,6 +94,10 @@ final class ArrayUtil
      */
     public static function toArrayList($value): array
     {
+        if ($value === null) {
+            return [];
+        }
+
         $value = self::toArrayListOrNull($value);
 
         if ($value === null) {

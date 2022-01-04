@@ -98,8 +98,8 @@ class NumberUtilTest extends TestCase
         $numberObject = new StringObject('123.45');
 
         self::assertEquals(
-            [1, 12, '123.99', $numberObject],
-            array_filter([1, 12, '123.99', $numberObject, 'string', [], null, new stdClass()], NumberUtil::canBeNumber)
+            [1, 12, '123.99', $numberObject, null],
+            array_filter([1, 12, '123.99', $numberObject, null, 'string', [], new stdClass()], NumberUtil::canBeNumber)
         );
     }
 
@@ -128,6 +128,7 @@ class NumberUtilTest extends TestCase
             [new StringObject('123.45')],
             [true],
             [false],
+            [null],
         ];
     }
 
@@ -135,7 +136,6 @@ class NumberUtilTest extends TestCase
     {
         return [
             [[]],
-            [null],
             ['10 123.45'],
             [new StringObject('nine')],
             [new stdClass()],

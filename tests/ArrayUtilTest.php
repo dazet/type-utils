@@ -11,6 +11,7 @@ use Dazet\TypeUtil\InvalidTypeException;
 use IteratorAggregate;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Traversable;
 use function array_filter;
 use function array_map;
 
@@ -18,11 +19,18 @@ use function array_map;
 class ArrayUtilTest extends TestCase
 {
     /** @dataProvider iterableLists */
-    public function test_possible_array_casts(iterable $arrayLike)
+    public function test_possible_array_casts($arrayLike, array $expectedArray)
     {
         self::assertTrue(ArrayUtil::canBeArray($arrayLike));
-        self::assertIsArray(ArrayUtil::toArrayOrNull($arrayLike));
-        self::assertIsArray(ArrayUtil::toArray($arrayLike));
+        self::assertEquals($expectedArray, ArrayUtil::toArrayOrNull($arrayLike));
+        self::assertEquals($expectedArray, ArrayUtil::toArray($arrayLike));
+    }
+
+    public function test_casting_null_to_array()
+    {
+        self::assertTrue(ArrayUtil::canBeArray(null));
+        self::assertEquals([], ArrayUtil::toArray(null));
+        self::assertEquals(null, ArrayUtil::toArrayOrNull(null));
     }
 
     /** @dataProvider nonIterables */
@@ -84,7 +92,7 @@ class ArrayUtilTest extends TestCase
         self::assertTrue(ArrayUtil::isCountable(['one']));
 
         $countable = new class implements Countable {
-            public function count()
+            public function count(): int
             {
                 return 123;
             }
@@ -105,7 +113,7 @@ class ArrayUtilTest extends TestCase
     public function test_filtering_countable_in_array()
     {
         $countable = new class implements Countable {
-            public function count()
+            public function count(): int
             {
                 return 123;
             }
@@ -121,7 +129,7 @@ class ArrayUtilTest extends TestCase
     public function test_mapping_list_of_countable()
     {
         $countable = new class implements Countable {
-            public function count()
+            public function count(): int
             {
                 return 123;
             }
@@ -138,18 +146,19 @@ class ArrayUtilTest extends TestCase
     public function iterableLists(): array
     {
         return [
-            [['a', 'b', 'c']],
-            [new ArrayObject(['a', 'b', 'c'])],
-            [new ArrayIterator(['a', 'b', 'c'])],
+            [['a', 'b', 'c'], ['a', 'b', 'c']],
+            [new ArrayObject(['a', 'b', 'c']), ['a', 'b', 'c']],
+            [new ArrayIterator(['a', 'b', 'c']), ['a', 'b', 'c']],
             [
                 new class implements IteratorAggregate {
-                    public function getIterator(): iterable
+                    public function getIterator(): Traversable
                     {
                         yield 'a';
                         yield 'b';
                         yield 'c';
                     }
                 },
+                ['a', 'b', 'c']
             ],
         ];
     }

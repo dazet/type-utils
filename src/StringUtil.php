@@ -21,7 +21,7 @@ final class StringUtil
      */
     public static function canBeString($value): bool
     {
-        return is_scalar($value) || (is_object($value) && method_exists($value, '__toString'));
+        return $value === null || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'));
     }
 
     /**
@@ -46,6 +46,10 @@ final class StringUtil
      */
     public static function toString($value): string
     {
+        if ($value === null) {
+            return '';
+        }
+
         $string = self::toStringOrNull($value);
 
         if ($string === null) {

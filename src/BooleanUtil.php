@@ -7,8 +7,8 @@ use function in_array;
 
 final class BooleanUtil
 {
-    public const TRUTHS = [true, 1, '1'];
-    public const FALLACY = [false, 0, '0'];
+    public const TRUTHS = [true, 1, '1', 'true', 'yes'];
+    public const FALLACY = [false, 0, '0', 'false', 'no'];
     /** @var callable(mixed)bool */
     public const canBeBool = [self::class, 'canBeBool'];
     /** @var callable(mixed)?bool */
@@ -21,7 +21,7 @@ final class BooleanUtil
      */
     public static function canBeBool($value): bool
     {
-        return in_array($value, array_merge(self::TRUTHS, self::FALLACY), true);
+        return in_array($value, array_merge(self::TRUTHS, self::FALLACY, [null]), true);
     }
 
     /**
@@ -46,12 +46,16 @@ final class BooleanUtil
      */
     public static function toBool($value): bool
     {
-        $value = self::toBoolOrNull($value);
-
         if ($value === null) {
+            return false;
+        }
+
+        $boolOrNull = self::toBoolOrNull($value);
+
+        if ($boolOrNull === null) {
             throw InvalidTypeException::of($value, 'bool');
         }
 
-        return $value;
+        return $boolOrNull;
     }
 }

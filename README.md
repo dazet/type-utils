@@ -6,12 +6,12 @@
 
 #### `StringUtil::canBeString(mixed $value): bool`
 
-Returns `true` if `$value` can be safely casted to string: is scalar or object with `__toString` method.
+Returns `true` if `$value` can be safely casted to string: is scalar or object with `__toString` method or `null`.
 
 `StringUtil::canBeString` method shortcut:
 ```php
 $array = ['string', 123, [], null];
-array_filter($array, StringUtil::canBeString); // ['string', 123]
+array_filter($array, StringUtil::canBeString); // ['string', 123, null]
 ```
 
 #### `StringUtil::toStringOrNull(mixed $value): ?string`
@@ -30,8 +30,8 @@ Casts value to `string` if possible or throws `InvalidTypeException`.
  
 `StringUtil::toString` method shortcut:
 ```php
-$a = ['string', 123];
-array_map(StringUtil::toString, $a); // ['string', '123']
+$a = ['string', 123, null];
+array_map(StringUtil::toString, $a); // ['string', '123', '']
 
 $b = ['string', new stdClass()];
 array_map(StringUtil::toString, $b); // throws InvalidTypeException
@@ -46,11 +46,12 @@ Returns true if value can be safely casted to `int|float`, which means that:
 * or numeric string 
 * or can be casted to numeric string
 * or is a boolean that can be transformed to `0|1`
+* or is `null`
 
 `NumberUtil::canBeNumber` method shortcut:
 ```php
 $array = [123, 1.23, '123', 'string', null];
-array_filter($array, NumberUtil::canBeNumber); // [123, 1.23, '123']
+array_filter($array, NumberUtil::canBeNumber); // [123, 1.23, '123', null]
 ```
 
 #### `NumberUtil::toIntOrNull(mixed $value): ?int`
@@ -85,7 +86,7 @@ Casts value to `float` if possible or throws `InvalidTypeException`.
 
 #### `ArrayUtil::canBeArray(mixed $value): bool`
 
-Returns true if `$value` is or can be converted to `array`, which means it is iterable.
+Returns true if `$value` is or can be converted to `array`, which means it is iterable or `null`.
 
 `ArrayUtil::canBeArray` method shortcut:
 ```php

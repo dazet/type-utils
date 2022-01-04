@@ -25,7 +25,7 @@ final class NumberUtil
      */
     public static function canBeNumber($value): bool
     {
-        return is_numeric($value) || is_bool($value)
+        return $value === null ||is_numeric($value) || is_bool($value)
             || (StringUtil::canBeString($value) && is_numeric(StringUtil::toString($value)));
     }
 
@@ -60,6 +60,10 @@ final class NumberUtil
      */
     public static function toInt($value): int
     {
+        if ($value === null) {
+            return 0;
+        }
+
         $value = self::toIntOrNull($value);
 
         if ($value === null) {
@@ -96,6 +100,10 @@ final class NumberUtil
      */
     public static function toFloat($value): float
     {
+        if ($value === null) {
+            return 0.0;
+        }
+
         $value = self::toFloatOrNull($value);
 
         if ($value === null) {

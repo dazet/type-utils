@@ -39,7 +39,7 @@ class StringUtilTest extends TestCase
         $stringObject = new StringObject('hello');
 
         self::assertEquals(
-            ['hello', $stringObject, 123, true],
+            ['hello', $stringObject, 123, true, null],
             array_filter(['hello', $stringObject, 123, true, null, ['array'], new stdClass()], StringUtil::canBeString)
         );
     }
@@ -60,6 +60,7 @@ class StringUtilTest extends TestCase
             ['string', 'string'],
             [true, '1'],
             [false, '0'],
+            [null, ''],
             [123, '123'],
             [123.45, '123.45'],
             [new StringObject('hello'), 'hello'],
@@ -68,6 +69,6 @@ class StringUtilTest extends TestCase
 
     public function invalidString(): array
     {
-        return [[[]], [new stdClass()], [tmpfile()], [null], [fn() => 'a']];
+        return [[[]], [new stdClass()], [tmpfile()], [fn() => 'a']];
     }
 }
